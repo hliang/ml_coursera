@@ -51,6 +51,10 @@ fprintf('Normalizing Features ...\n');
 
 [X mu sigma] = featureNormalize(X);
 
+fprintf('After normalization:\n');
+fprintf(' x = [%.0f %.0f], y = %.0f \n', [X(1:10,:) y(1:10,:)]');
+
+
 % Add intercept term to X
 X = [ones(m, 1) X];
 
@@ -100,11 +104,32 @@ fprintf('Theta computed from gradient descent: \n');
 fprintf(' %f \n', theta);
 fprintf('\n');
 
+% -------- different values of alpha -- learning rate ---------------
+fprintf('using different values of alpha \n');
+figure;
+% hold on;
+alpha = 0.0001;
+subplot_index = 1;
+while alpha <= 1000
+  subplot(4, 2, subplot_index)
+  theta = zeros(3, 1);
+  [theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
+  plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
+  legend(sprintf('alpha = %f', alpha))
+  alpha = alpha * 10;
+  subplot_index += 1;
+  fprintf('## alpha: %f.\n', alpha);
+  fprintf('## theta:\n %f \n', theta);
+end;
+
+
+
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
+input_house_normalized = ([1 1650 3] - [0 mu]) ./ [1 sigma]; % matrix of 1 x 3
+price = input_house_normalized * theta; 
 
 
 % ============================================================
