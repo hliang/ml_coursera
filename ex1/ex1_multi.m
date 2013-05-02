@@ -121,13 +121,16 @@ while alpha <= 1000
   fprintf('## alpha: %f.\n', alpha);
   fprintf('## theta:\n %f \n', theta);
 end;
-
-
+% -------- converge most quickly when alpha = 1 --------------
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
+alpha = 1;
+theta = zeros(3, 1);
+[theta, J_history] = gradientDescentMulti(X, y, theta, alpha, num_iters);
+
 input_house_normalized = ([1 1650 3] - [0 mu]) ./ [1 sigma]; % matrix of 1 x 3
 price = input_house_normalized * theta; 
 
@@ -174,7 +177,7 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-price = 0; % You should change this
+price = [1 1650 3] * theta; 
 
 
 % ============================================================
