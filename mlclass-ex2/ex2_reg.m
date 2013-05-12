@@ -83,11 +83,21 @@ pause;
 %  the training set accuracy vary?
 %
 
+% lambda = 0,   Train Accuracy: 86.440678
+% lambda = 1,   Train Accuracy: 83.050847
+% lambda = 10,  Train Accuracy: 74.576271
+% lambda = 100, Train Accuracy: 61.016949
+% as lambda get  smaller  | larger
+% train accuracy increase | decrease
+% susceptible to overfit  | underfit
+% abs(theta) get larger   | smaller
+% lambda = 1 seems best in this exercise
+
 % Initialize fitting parameters
 initial_theta = zeros(size(X, 2), 1);
 
 % Set regularization parameter lambda to 1 (you should vary this)
-lambda = 1;
+lambda = 100;
 
 % Set Options
 options = optimset('GradObj', 'on', 'MaxIter', 400);
@@ -95,7 +105,7 @@ options = optimset('GradObj', 'on', 'MaxIter', 400);
 % Optimize
 [theta, J, exit_flag] = ...
 	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
-
+theta
 % Plot Boundary
 plotDecisionBoundary(theta, X, y);
 hold on;
