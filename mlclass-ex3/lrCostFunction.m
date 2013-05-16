@@ -36,10 +36,14 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+h_theta_x = sigmoid(X * theta);
+theta_reg = theta(2:end, :);
+J = ( -y' * log(h_theta_x) - (1 - y)' * log(1 - h_theta_x) ) / m + theta_reg' * theta_reg * lambda / (2 * m) ;
 
-
-
-
+% same gradient as non-regularized logistic regression
+grad = X' * (h_theta_x - y) / m ;
+% regularized theta(2:end)
+grad(2:end, :) = grad(2:end, :) + theta_reg * lambda / m ;
 
 
 
