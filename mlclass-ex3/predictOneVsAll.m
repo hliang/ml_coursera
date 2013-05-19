@@ -30,9 +30,9 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
+Pm = sigmoid(X * all_theta'); % matrix of p
+[pv, pi] = max(Pm, [], 2); % value and index of p in each row
+p = pi;
 
 
 
