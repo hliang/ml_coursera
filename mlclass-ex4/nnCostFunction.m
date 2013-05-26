@@ -62,18 +62,28 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+A1 = [ones(m, 1) X];
+A2 = sigmoid(A1 * Theta1' );
+A2 = [ones(m, 1) A2];
+A3 = sigmoid(A2 * Theta2' );
+H_theta_x = A3;
 
+% recode the labels as vectors containing only values 0 or 1 (page 5 of ex4.pdf)
+yk = zeros(m, num_labels);
+for i = 1:m
+    yk(i, y(i)) = 1;
+end
 
+% dot product of y and log(H_theta_x),
+% then return sum of all elements in the matrix
+J = (1/m) * sum( sum( -yk .* log(H_theta_x) - (1 - yk) .* log(1 - H_theta_x) ) );
 
+% add regularization term to cost function
+Theta1_reg = Theta1(:, 2:end);
+Theta2_reg = Theta2(:, 2:end);
+reg = lambda / ( 2 * m ) * (sum(sum(Theta1_reg .^ 2)) + sum(sum(Theta2_reg .^ 2)))
 
-
-
-
-
-
-
-
-
+J = J + reg
 
 
 
