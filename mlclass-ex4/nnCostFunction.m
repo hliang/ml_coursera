@@ -81,13 +81,23 @@ J = (1/m) * sum( sum( -yk .* log(H_theta_x) - (1 - yk) .* log(1 - H_theta_x) ) )
 % add regularization term to cost function
 Theta1_reg = Theta1(:, 2:end);
 Theta2_reg = Theta2(:, 2:end);
-reg = lambda / ( 2 * m ) * (sum(sum(Theta1_reg .^ 2)) + sum(sum(Theta2_reg .^ 2)))
+reg = lambda / ( 2 * m ) * (sum(sum(Theta1_reg .^ 2)) + sum(sum(Theta2_reg .^ 2)));
 
-J = J + reg
+J = J + reg;
 
+% ------------- copied from someone's solution---------------- %
+%Backprop:
 
+Delta3 = A3 - yk;
+Delta2 = ((Delta3 * Theta2(:, 2:end)) .* sigmoidGradient(A1 * Theta1'));
 
+Theta1_grad = 1/m * Delta2' * A1;
+Theta2_grad = 1/m * Delta3' * A2;
 
+%add regularization:
+
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + lambda/m*Theta1(:,2:end);
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + lambda/m*Theta2(:,2:end);
 
 
 % -------------------------------------------------------------
