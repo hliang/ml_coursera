@@ -46,12 +46,12 @@ J = 1/2 * sum(sum(((X * Theta' - Y) .* R) .^ 2) ); % without regularization.
 reg = lambda / 2 * sum(sum(Theta .^ 2)) + lambda / 2 * sum(sum(X .^ 2));
 J = J + reg;
 
-
-
-
-
-
-
+% Collaborative filtering gradient
+X_grad     =  (X * Theta' - Y) .* R   * Theta ;
+Theta_grad = ((X * Theta' - Y) .* R)' * X     ;
+% Regularized gradient
+X_grad     = X_grad     + lambda * X     ;
+Theta_grad = Theta_grad + lambda * Theta ;
 
 
 
